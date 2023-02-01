@@ -20,13 +20,42 @@ class Solution{
         }
     }
     
+    void findPermutations(string str, vector<int> &freq, string s, vector<string> &ans) {
+        // base case
+        if(str.size() == s.size()) {
+            ans.push_back(str);
+            return;
+        }
+        
+        for(int i=0; i<freq.size(); i++) {
+            if(freq[i] == 0) { 
+                str += s[i]; // take this character in curr string str
+                freq[i] = 1; // mark present in freq array
+                findPermutations(str, freq, s, ans); // call rec
+                freq[i] = 0; // mark absent
+                str.pop_back(); // remove added character while backtracking
+            }
+        }
+        
+    }
+    
     vector<string> permutation(string S)
     {
-        // TC: O(n! * n), SC: O(n) for rec stack space
+        // using extra space
+        // TC: O(n!*n + nlogn) = O(n! * n), SC: O(n) where O(n) is for using map/freq array and another O(n) is rec stack
         vector<string> ans;
-        helper(0, S, ans);
-        sort(ans.begin(), ans.end());
+        string str = ""; // current string
+        int n = S.size();
+        vector<int> freq(n,0);
+        findPermutations(str, freq, S, ans);
+        sort(ans.begin(), ans.end()); 
         return ans;
+        
+        // Optimised => TC: O(n! * n), SC: O(n) for rec stack space
+        // vector<string> ans;
+        // helper(0, S, ans);
+        // sort(ans.begin(), ans.end());
+        // return ans;
     }
 };
 
