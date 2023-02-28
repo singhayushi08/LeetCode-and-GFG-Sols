@@ -6,10 +6,19 @@ class Solution {
             
             if(board[i][col] == ch)  //check column
                 return false;
-            
-            if(board[3 * (row/3) + i/3][3 * (col/3) + i%3] == ch ) //check sub-box (3*3 grid)
-                return false;
         }
+        
+        //check subgrid
+        int x0 = 3 * (row/3); //gives starting row index of subgrid
+        int y0 = 3 * (col/3); //gives starting col index of subgrid
+        for(int i = x0; i<=x0+2; i++) {
+            for(int j = y0; j<=y0+2; j++) {
+                if(board[i][j] == ch) {
+                    return false;
+                }
+            }
+        }
+        
         //if no false, then it is safe to place this ch at board[row][col]
         return true;
     }
@@ -101,9 +110,9 @@ class Solution {
 public:
     void solveSudoku(vector<vector<char>>& board) {
         // TC: O(9^(N^2)) coz every cell in n^2 matrix we have 9 possible options, SC: O(1)
-        // solve(board);
+        solve(board);
 
         // another way: instead of traversing the whole matrix again to find the next empty cell, we can simply pass r,c
-        solve_helper(board, 0, 0);
+        // solve_helper(board, 0, 0);
     }
 };
