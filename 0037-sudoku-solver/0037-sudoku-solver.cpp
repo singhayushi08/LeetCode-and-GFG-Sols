@@ -51,9 +51,16 @@ class Solution {
         // x0, y0 is the starting index of the subgrid
         int x0 = 3 * (row/3);
         int y0 = 3 * (col/3); 
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                if(board[x0 + i][y0 + j] == ch) {
+        // for(int i = 0; i < 3; i++) {
+        //     for(int j = 0; j < 3; j++) {
+        //         if(board[x0 + i][y0 + j] == ch) {
+        //             return false;
+        //         }
+        //     }
+        // }
+        for(int i = x0; i <= x0+2; i++) {
+            for(int j = y0; j <= y0+2; j++) {
+                if(board[i][j] == ch) {
                     return false;
                 }
             }
