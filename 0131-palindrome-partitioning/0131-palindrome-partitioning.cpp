@@ -26,6 +26,8 @@ public:
     }
     
     vector<vector<string>> partition(string s) {
+        // TC: O(2^n*k*n) where 2^n is for generating every substring, inserting k length substring in ans, and n for checking if it is a palindrome
+        // SC: O(k*x + n) where x substrings of avg length k are inserted and n for rec stack space
         vector<vector<string>> ans;
         vector<string> path;
         helper(0, s, path, ans);
