@@ -47,24 +47,13 @@ public:
             }
             
             if(count == 1) {
-                chars[k] = chars[i];
-                k++; 
-                i++;
-            } else if(count < 10) {
-                chars[k] = chars[i];
-                k++;
-                i++;
-                chars[k] = count+'0'; // to convert integer into char 
-                k++;
-            } else { // if count >= 10
-                chars[k] = chars[i];
-                k++;
-                i++;
+                chars[k++] = chars[i++];
+            } else { // if count >= 2
+                chars[k++] = chars[i++];
                 string str = ""; 
                 str += to_string(count); // convert count into string, then pick each char of string and append to ans 
                 for(int j=0; j<str.size(); j++) {
-                    chars[k] = str[j];
-                    k++;
+                    chars[k++] = str[j];
                 }
             }
         }
