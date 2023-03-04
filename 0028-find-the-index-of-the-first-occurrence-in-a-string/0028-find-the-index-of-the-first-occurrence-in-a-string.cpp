@@ -1,6 +1,7 @@
 class Solution {
 public:
     int strStr(string haystack, string needle) {
+        // Using sliding window, TC: O(N), SC: O(1)
         int i = 0, j = 0;
         int m = haystack.size();
         int k = needle.size(); 
