@@ -1,7 +1,8 @@
 class Solution {
 public:
     int strStr(string haystack, string needle) {
-        // Using sliding window, TC: O(N), SC: O(1)
+        // Using sliding window
+        // TC: O(m*k) coz in the worst case, we are iterating over every indx of haystack(size=m) and traversing a window of needle of size k. Ex: haystack = "aaaaab" and needle = "aab",  SC: O(1)
         int i = 0, j = 0;
         int m = haystack.size();
         int k = needle.size(); 
