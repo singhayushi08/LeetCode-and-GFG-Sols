@@ -29,7 +29,6 @@ public:
         // Memoization, TC: O(n), SC: O(2n) for array and rec stack
         int n = cost.size();
         vector<int> dp(n+1, -1);
-        memo(cost, dp, n-1);
         int ans = min(memo(cost,dp,n-1), memo(cost,dp,n-2));
         return ans;
         
