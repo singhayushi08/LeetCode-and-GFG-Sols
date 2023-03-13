@@ -33,16 +33,29 @@ public:
         // return ans;
         
         // Tabulation, TC: O(n), SC: O(n)
-        int n = cost.size();
-        vector<int> dp(n+1);
-        dp[0] = cost[0];
-        dp[1] = cost[1];
+//         int n = cost.size();
+//         vector<int> dp(n+1);
+//         dp[0] = cost[0];
+//         dp[1] = cost[1];
         
-        for(int i=2; i<n; i++) {
-            dp[i] = cost[i] + min(dp[i-1], dp[i-2]);
+//         for(int i=2; i<n; i++) {
+//             dp[i] = cost[i] + min(dp[i-1], dp[i-2]);
+//         }
+        
+//         return min(dp[n-1], dp[n-2]);
+        
+        // Space optimised, TC: O(n), SC: O(1)
+        int prev2 = cost[0];
+        int prev1 = cost[1];
+        int curr;
+        
+        for(int i=2; i<cost.size(); i++) {
+            curr = cost[i] + min(prev1, prev2);
+            prev2 = prev1;
+            prev1 = curr;
         }
         
-        return min(dp[n-1], dp[n-2]);
+        return min(prev1, prev2);
         
         
     }
