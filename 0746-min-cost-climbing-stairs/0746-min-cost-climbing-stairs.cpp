@@ -26,13 +26,12 @@ public:
         // int ans = min(solve(cost, n-1), solve(cost, n-2)); //starting can be 0th idx or 1st idx
         // return ans;
         
-        // Memoization
+        // Memoization, TC: O(n), SC: O(2n) for array and rec stack
         int n = cost.size();
         vector<int> dp(n+1, -1);
         memo(cost, dp, n-1);
-        dp[0] = cost[0];
-        dp[1] = cost[1];
-        return min(dp[n-1], dp[n-2]);
+        int ans = min(memo(cost,dp,n-1), memo(cost,dp,n-2));
+        return ans;
         
     }
 };
