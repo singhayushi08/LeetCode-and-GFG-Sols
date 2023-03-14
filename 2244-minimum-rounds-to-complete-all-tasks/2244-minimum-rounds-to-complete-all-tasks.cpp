@@ -19,16 +19,10 @@ public:
             if(freq == 1) { //not possible
                 return -1;
             }
-            else if(freq == 2) {
-                round++;
-            }
-            else { 
-                if(freq % 3 == 0) { //if freq is in form of 3k
-                    round += freq/3;
-                }
-                else { //if freq is in form of 3k+1 or 3k+2 (like 10 => 3+3+2+2 so 4 rounds)
-                    round += (freq/3) + 1;
-                }
+            if(freq % 3 == 0) { //if freq is in form of 3k
+                round += freq/3;
+            } else { //if freq is in form of 3k+1 or 3k+2 (like 10 => 3+3+2+2 so 4 rounds)
+                round += (freq/3) + 1;
             }
         }
         
