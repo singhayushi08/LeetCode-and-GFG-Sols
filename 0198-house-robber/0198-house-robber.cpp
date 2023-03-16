@@ -1,8 +1,9 @@
 class Solution {
     int f(int idx, vector<int> &nums) { 
         //f(n-1) signifies the max amount of money you can rob from 0 to n-1 with no two adjacent houses
-        if(idx == 0) return nums[0];  //f(0) means max amount to rob from 0 to 0 index of nums, i.e. 
-        if(idx < 0) return 0;
+        
+        if(idx == 0) return nums[0];  //you can only come to 0 when you did not pick 1, so now you can pick 0th element 
+        if(idx < 0) return 0; 
         
         int pick = nums[idx] + f(idx-2, nums); //if you have picked i then you cannot pick i-1(coz they are adjacent)
         int notPick = 0 + f(idx-1, nums); //if you dont pick i, then move to i-1
