@@ -32,8 +32,23 @@ public:
         // return f(n-1, nums);
         
         // Memoization, TC: O(n), SC: O(2n)
-        vector<int> dp(n,-1);
-        return memo(n-1, nums, dp);
+        // vector<int> dp(n,-1);
+        // return memo(n-1, nums, dp);
+        
+        // Tabulation, TC: O(n), SC: O(1)
+        vector<int> dp(n);
+        dp[0] = nums[0];
+        
+        for(int i=1; i<n; i++) {
+            int pick = nums[i];
+            if(i >= 2) pick += dp[i-2];
+            int notPick = 0 + dp[i-1];
+            
+            dp[i] = max(pick, notPick);
+        }
+        
+        return dp[n-1];
+        
         
         
         
