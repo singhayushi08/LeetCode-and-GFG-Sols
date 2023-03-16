@@ -1,11 +1,11 @@
 class Solution {
     int f(int idx, vector<int> &nums) { 
         //f(n-1) signifies the max amount of money you can rob from 0 to n-1 with no two adjacent houses
-        if(idx == 0) return nums[0]; 
+        if(idx == 0) return nums[0];  //f(0) means max amount to rob from 0 to 0 index of nums, i.e. 
         if(idx < 0) return 0;
         
-        int pick = nums[idx] + f(idx - 2, nums);
-        int notPick = 0 + f(idx - 1, nums);
+        int pick = nums[idx] + f(idx-2, nums); //if you have picked i then you cannot pick i-1(coz they are adjacent)
+        int notPick = 0 + f(idx-1, nums); //if you dont pick i, then move to i-1
         
         return max(pick, notPick);
     }
@@ -36,18 +36,35 @@ public:
         // return memo(n-1, nums, dp);
         
         // Tabulation, TC: O(n), SC: O(1)
-        vector<int> dp(n);
-        dp[0] = nums[0];
+//         vector<int> dp(n);
+//         dp[0] = nums[0];
+        
+//         for(int i=1; i<n; i++) {
+//             int pick = nums[i];
+//             if(i >= 2) pick += dp[i-2];
+//             int notPick = 0 + dp[i-1];
+            
+//             dp[i] = max(pick, notPick);
+//         }
+        
+//         return dp[n-1];
+        
+        // Space Optimisation, TC: O(n), SC: O(1)
+        int prev1 = nums[0];
+        int prev2 = 0;
         
         for(int i=1; i<n; i++) {
             int pick = nums[i];
-            if(i >= 2) pick += dp[i-2];
-            int notPick = 0 + dp[i-1];
+            if(i >= 2) pick += prev2;
+            int notPick = 0 + prev1;
             
-            dp[i] = max(pick, notPick);
+            int curr = max(pick, notPick);
+            prev2 = prev1;
+            prev1 = curr;
         }
         
-        return dp[n-1];
+        return prev1;
+        
         
         
         
