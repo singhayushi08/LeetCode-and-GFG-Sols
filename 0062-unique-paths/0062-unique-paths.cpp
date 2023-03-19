@@ -76,7 +76,7 @@ public:
 //         return dp[m-1][n-1];
         
         // Space Optimisation, TC: O(m*n), SC: O(n)
-        // we only require the prev rows value and prev value in current row to calculate i,j
+        // we only require the prev rows value and prev value in current row to calculate curr value
         
         vector<int> prev(n,0); // prev row
          
@@ -95,8 +95,6 @@ public:
         }
         
         return prev[n-1];
-       
-        
         
     }
 };
