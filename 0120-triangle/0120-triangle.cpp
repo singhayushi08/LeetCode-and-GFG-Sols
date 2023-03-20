@@ -40,22 +40,45 @@ public:
         // we did rec from 0,0 to n-1, n-1
         // tabulation is exact opposite, so n-1,n-1 to 0,0
         
-        vector<vector<int>> dp(n, vector<int>(n,0));
+//         vector<vector<int>> dp(n, vector<int>(n,0));
+        
+//         // fill last (n-1)th row
+//         for(int j=0; j<n; j++) {
+//             dp[n-1][j] = triangle[n-1][j];
+//         }
+        
+//         for(int i=n-2; i>=0; i--) {
+//             for(int j=i; j>=0; j--) {
+//                 int down = triangle[i][j] + dp[i+1][j]; // down
+//                 int diag = triangle[i][j] + dp[i+1][j+1]; // right down diagonal
+                
+//                 dp[i][j] = min(down, diag);
+//             }
+//         }
+        
+//         return dp[0][0];
+        
+        // Space Optimisation, TC: O(n*n), SC: O(n)
+        // we only require next row's jth and next row's j+1th value to find curr i,j
+        
+        vector<int> next(n,0);
         
         // fill last (n-1)th row
         for(int j=0; j<n; j++) {
-            dp[n-1][j] = triangle[n-1][j];
+            next[j] = triangle[n-1][j];
         }
         
         for(int i=n-2; i>=0; i--) {
+            vector<int> curr(n,0);
             for(int j=i; j>=0; j--) {
-                int down = triangle[i][j] + dp[i+1][j]; // down
-                int diag = triangle[i][j] + dp[i+1][j+1]; // right down diagonal
+                int down = triangle[i][j] + next[j]; // down
+                int diag = triangle[i][j] + next[j+1]; // right down diagonal
                 
-                dp[i][j] = min(down, diag);
+                curr[j] = min(down, diag);
             }
+            next = curr; //curr will become next
         }
         
-        return dp[0][0];
+        return next[0];
     }
 };
