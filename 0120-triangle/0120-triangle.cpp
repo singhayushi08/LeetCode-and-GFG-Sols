@@ -59,7 +59,7 @@ public:
 //         return dp[0][0];
         
         // Space Optimisation, TC: O(n*n), SC: O(n)
-        // we only require next row's jth and next row's j+1th value to find curr i,j
+        // we only require next row's jth and next row's j+1th value to find curr row's j value
         
         vector<int> next(n,0);
         
