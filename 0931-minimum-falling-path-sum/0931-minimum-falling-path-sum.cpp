@@ -39,13 +39,40 @@ public:
         // return ans;
         
         // Memoization, TC: O(n*n), SC: O(n*n + n) for 2d array and rec stack space
-        vector<vector<int>> dp(n, vector<int>(n,-1));
-        int ans = INT_MAX;
-        for(int j=0; j<n; j++) {
-            ans = min(ans, memo(n-1, j, n, matrix, dp));
-        }
-        return ans;
+        // vector<vector<int>> dp(n, vector<int>(n,-1));
+        // int ans = INT_MAX;
+        // for(int j=0; j<n; j++) {
+        //     ans = min(ans, memo(n-1, j, n, matrix, dp));
+        // }
+        // return ans;
         
+        // Tabulation, TC: O(n*n), SC: O(n*n) only for 2d array
+        // Rec from  n-1,n-1 to oth row
+        // Tabulation from 0th to n-1,n-1
+        vector<vector<int>> dp(n, vector<int>(n,0));
+        
+        // fill first row
+        for(int j=0; j<n; j++) {
+            dp[0][j] = matrix[0][j];
+        }
+        
+        for(int i=1; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                int up = matrix[i][j] + dp[i-1][j];
+                int ld = INT_MAX, rd = INT_MAX;
+                if(j-1 >= 0) ld = matrix[i][j] + dp[i-1][j-1];
+                if(j+1 < n) rd = matrix[i][j] + dp[i-1][j+1];
+                
+                dp[i][j] = min(up, min(ld, rd));
+            }
+        }
+        
+        int mini = INT_MAX;
+        for(int j=0; j<n; j++) {
+            mini = min(dp[n-1][j], mini);
+        }
+        
+        return mini;
         
     }
 };
