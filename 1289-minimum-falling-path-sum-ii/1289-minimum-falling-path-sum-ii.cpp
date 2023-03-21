@@ -102,18 +102,45 @@ public:
         // return ans;
         
         // Memoization, TC: O(n*m), SC: O(n*m + n) for 2d array and rec stack space
-        int n = grid.size();
-        int m = grid[0].size(); //just in case n and m were different
-        vector<vector<int>> dp(n, vector<int>(m,-1));
-        int ans = INT_MAX;
+//         int n = grid.size();
+//         int m = grid[0].size(); //just in case n and m were different
+//         vector<vector<int>> dp(n, vector<int>(m,-1));
+//         int ans = INT_MAX;
         
-        for(int j=0; j<m; j++) {
-            ans = min(ans, solve(n-1, j, grid, dp));
-        }
-        return ans;
+//         for(int j=0; j<m; j++) {
+//             ans = min(ans, solve(n-1, j, grid, dp));
+//         }
+//         return ans;
         
         // Tabulation
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>> dp(n, vector<int>(m,0));
         
+        // fill 1st row
+        for(int j=0; j<m; j++) {
+            dp[0][j] = grid[0][j];
+        }
+        
+        for(int i=1; i<n; i++) {
+            for(int j=0; j<m; j++) {
+                int mini = INT_MAX;
+                for(int k=0; k<m; k++) {
+                    if(k != j) {
+                        int temp = grid[i][j] + dp[i-1][k];
+                        mini = min(mini, temp);
+                    }
+                }
+                dp[i][j] = mini;
+            }
+        }
+        
+        int ans = dp[n-1][0];
+        for(int j=1; j<m; j++) {
+            ans = min(ans, dp[n-1][j]);
+        }
+        return ans;
+            
         
         
         
