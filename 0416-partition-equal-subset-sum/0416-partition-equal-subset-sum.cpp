@@ -47,25 +47,45 @@ public:
         // return memo(n-1, k, nums, dp);
         
         // Tabulation, TC: (n*k), SC: O(n*k)
-        vector<vector<bool>> dp(n, vector<bool>(k+1, 0));
-        for(int i=0; i<n; i++) { //if target is 0
-            dp[i][0] = true;
-        }
-        if(nums[0] <= k) dp[0][nums[0]] = true; 
+//         vector<vector<bool>> dp(n, vector<bool>(k+1, 0));
+//         for(int i=0; i<n; i++) { //if target is 0
+//             dp[i][0] = true;
+//         }
+//         if(nums[0] <= k) dp[0][nums[0]] = true; 
+        
+//         for(int idx=1; idx<n; idx++) {
+//             for(int target=1; target<=k; target++) {
+//                 bool notPick = dp[idx-1][target];
+//                 bool pick = false;
+//                 if(nums[idx] <= target) {
+//                     pick = dp[idx-1][target-nums[idx]];
+//                 }
+
+//                 dp[idx][target] = pick | notPick;
+//             }
+//         }
+        
+//         return dp[n-1][k];
+        
+        // Space optimisation, TC: O(n*k), SC: O(n)
+        vector<bool> prev(k+1, 0), curr(k+1, 0);
+        prev[0] = curr[0] = true; // target is 0
+        if(nums[0] <= k) prev[nums[0]] = true; 
         
         for(int idx=1; idx<n; idx++) {
             for(int target=1; target<=k; target++) {
-                bool notPick = dp[idx-1][target];
+                bool notPick = prev[target];
                 bool pick = false;
                 if(nums[idx] <= target) {
-                    pick = dp[idx-1][target-nums[idx]];
+                    pick = prev[target-nums[idx]];
                 }
 
-                dp[idx][target] = pick | notPick;
+                curr[target] = pick | notPick;
             }
+            prev = curr;
         }
         
-        return dp[n-1][k];
+        return prev[k];
         
 
         
