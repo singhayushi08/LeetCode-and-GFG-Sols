@@ -7,7 +7,7 @@ class Solution{
 
   public:
 	int minDifference(int arr[], int n)  { 
-	    // Using subset sum, TC: O(n*target), SC: O(n*target)
+	    // Using subset sum, TC: O(n*target), SC: O(n*target) where target is total_sum
         int total_sum = 0;
         for(int i=0; i<n; i++) {
             total_sum += arr[i];
