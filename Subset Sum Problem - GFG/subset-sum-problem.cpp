@@ -50,26 +50,48 @@ public:
         // return memo(n-1, sum, arr, dp);
         
         // Tabulation, TC: O(n*sum), SC: O(n*sum)
-        vector<vector<int>> dp(n, vector<int>(sum+1, 0));
+        // vector<vector<int>> dp(n, vector<int>(sum+1, 0));
         
-        for(int i=0; i<n; i++) {
-            dp[i][0] = true;
-        }
-        if(arr[0] <= sum) dp[0][arr[0]] = true;
+        // for(int i=0; i<n; i++) {
+        //     dp[i][0] = true;
+        // }
+        // if(arr[0] <= sum) dp[0][arr[0]] = true;
+        
+        // for(int idx=1; idx<n; idx++) {
+        //     for(int target = 1; target<=sum; target++) {
+        //         int notPick = dp[idx-1][target];
+        //         int pick = false;
+        //         if(arr[idx] <= target) {
+        //             pick = dp[idx-1][target-arr[idx]]; 
+        //         }
+                
+        //         dp[idx][target] = pick | notPick;
+        //     }
+        // }
+        
+        // return dp[n-1][sum];
+        
+        // Space Optimisation, TC: O(n*sum), SC: O(sum)
+        vector<int> prev(sum+1, 0), curr(sum+1, 0);
+        
+        prev[0] = curr[0] = true;
+        if(arr[0] <= sum) prev[arr[0]] = true;
         
         for(int idx=1; idx<n; idx++) {
             for(int target = 1; target<=sum; target++) {
-                int notPick = dp[idx-1][target];
+                int notPick = prev[target];
                 int pick = false;
                 if(arr[idx] <= target) {
-                    pick = dp[idx-1][target-arr[idx]]; 
+                    pick = prev[target-arr[idx]]; 
                 }
                 
-                dp[idx][target] = pick | notPick;
+                curr[target] = pick | notPick;
             }
+            prev = curr;
         }
         
-        return dp[n-1][sum];
+        return prev[sum];
+        
     }
 };
 
