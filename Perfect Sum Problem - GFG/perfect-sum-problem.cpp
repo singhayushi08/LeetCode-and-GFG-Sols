@@ -50,27 +50,52 @@ class Solution{
 	   //return memo(n-1, sum, arr, dp);
 	   
 	   // Tabulation, TC: O(n*sum), SC: O(n*sum)
-	   vector<vector<int>> dp(n, vector<int>(sum+1, 0));
+	   //vector<vector<int>> dp(n, vector<int>(sum+1, 0));
+	   //if(arr[0] == 0) {
+	   //    dp[0][0] = 2;
+	   //} else {
+	   //    dp[0][0] = 1;
+	   //}
+	   
+	   //if(arr[0] <= sum && arr[0] != 0) dp[0][arr[0]] = 1;
+	   
+	   //for(int idx=1; idx<n; idx++) {
+	   //    for(int target=0; target<=sum; target++) {
+	   //         int notPick = dp[idx-1][target]%mod;
+    //             int pick = 0;
+    //             if(arr[idx] <= target) 
+    //                 pick = dp[idx-1][target-arr[idx]]%mod;
+                    
+    //             dp[idx][target] = (pick + notPick)%mod;
+	   //    }
+	   //}
+	   
+	   //return dp[n-1][sum];
+	   
+	   
+	   // Space Optimisation, TC: O(n*sum), SC: O(sum)
+	   vector<int> prev(sum+1, 0), curr(sum+1, 0);
 	   if(arr[0] == 0) {
-	       dp[0][0] = 2;
+	       prev[0] = 2;
 	   } else {
-	       dp[0][0] = 1;
+	       prev[0] = 1;
 	   }
 	   
-	   if(arr[0] <= sum && arr[0] != 0) dp[0][arr[0]] = 1;
+	   if(arr[0] <= sum && arr[0] != 0) prev[arr[0]] = 1;
 	   
 	   for(int idx=1; idx<n; idx++) {
 	       for(int target=0; target<=sum; target++) {
-	            int notPick = dp[idx-1][target]%mod;
+	            int notPick = prev[target]%mod;
                 int pick = 0;
                 if(arr[idx] <= target) 
-                    pick = dp[idx-1][target-arr[idx]]%mod;
+                    pick = prev[target-arr[idx]]%mod;
                     
-                dp[idx][target] = (pick + notPick)%mod;
+                curr[target] = (pick + notPick)%mod;
 	       }
+	       prev = curr;
 	   }
 	   
-	   return dp[n-1][sum];
+	   return prev[sum];
 	   
 	   
 	}
