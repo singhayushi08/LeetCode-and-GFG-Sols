@@ -67,7 +67,7 @@ class Solution
         
         // return dp[n-1][W];
         
-        // Space Optimisation, TC: O(n*m), SC: O(W)
+        // Space Optimisation, TC: O(n*W), SC: O(W)
         vector<int> prev(W+1, 0);
         
         for(int j=wt[0]; j<=W; j++) {
