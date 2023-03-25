@@ -48,24 +48,46 @@ class Solution
         // return memo(n-1, W, wt, val, dp);
         
         // Tabulation, TC: O(n*W), SC: O(n*W)
-        vector<vector<int>> dp(n, vector<int>(W+1, 0));
+        // vector<vector<int>> dp(n, vector<int>(W+1, 0));
+        
+        // for(int j=wt[0]; j<=W; j++) {
+        //     dp[0][j] = val[0];
+        // }
+        
+        // for(int idx = 1; idx<n; idx++) {
+        //     for(int j=0; j<=W; j++) {
+        //         int notPick = 0 + dp[idx-1][j]; // no value added
+        //         int pick = INT_MIN;
+        //         if(wt[idx] <= j) 
+        //             pick = val[idx] + dp[idx-1][j-wt[idx]]; 
+                    
+        //         dp[idx][j] = max(pick, notPick);
+        //     }
+        // }
+        
+        // return dp[n-1][W];
+        
+        // Space Optimisation, TC: O(n*m), SC: O(W)
+        vector<int> prev(W+1, 0);
         
         for(int j=wt[0]; j<=W; j++) {
-            dp[0][j] = val[0];
+            prev[j] = val[0];
         }
         
         for(int idx = 1; idx<n; idx++) {
+            vector<int> curr(W+1, 0);
             for(int j=0; j<=W; j++) {
-                int notPick = 0 + dp[idx-1][j]; // no value added
+                int notPick = 0 + prev[j]; // no value added
                 int pick = INT_MIN;
                 if(wt[idx] <= j) 
-                    pick = val[idx] + dp[idx-1][j-wt[idx]]; 
+                    pick = val[idx] + prev[j-wt[idx]]; 
                     
-                dp[idx][j] = max(pick, notPick);
+                curr[j] = max(pick, notPick);
             }
+            prev = curr;
         }
         
-        return dp[n-1][W];
+        return prev[W];
     }
 };
 
