@@ -46,30 +46,58 @@ public:
         // return ans;
         
         // Tabulation
+//         int n = coins.size();
+//         vector<vector<int>> dp(n, vector<int>(amount+1, 0));
+//         for(int target=0; target<=amount; target++) {
+//             if(target % coins[0] == 0) {
+//                 dp[0][target] = target/coins[0];
+//             } else {
+//                 dp[0][target] = 1e9;
+//             }
+//         }
+        
+//         for(int idx=1; idx<n; idx++) {
+//             for(int target=0; target<=amount; target++) {
+//                 int notPick = 0 + dp[idx-1][target]; 
+//                 int pick = INT_MAX; 
+//                 if(coins[idx] <= target) 
+//                     pick = 1 + dp[idx][target-coins[idx]];
+
+//                 dp[idx][target] = min(pick, notPick);
+//             }
+//         }
+        
+//         int ans = dp[n-1][amount];
+//         if(ans >= 1e9) return -1;
+//         return ans;
+        
+        // Space optimisation
         int n = coins.size();
-        vector<vector<int>> dp(n, vector<int>(amount+1, 0));
+        vector<int> prev(amount+1, 0), curr(amount+1, 0);
         for(int target=0; target<=amount; target++) {
             if(target % coins[0] == 0) {
-                dp[0][target] = target/coins[0];
+                prev[target] = target/coins[0];
             } else {
-                dp[0][target] = 1e9;
+                prev[target] = 1e9;
             }
         }
         
         for(int idx=1; idx<n; idx++) {
             for(int target=0; target<=amount; target++) {
-                int notPick = 0 + dp[idx-1][target]; 
+                int notPick = 0 + prev[target]; 
                 int pick = INT_MAX; 
                 if(coins[idx] <= target) 
-                    pick = 1 + dp[idx][target-coins[idx]];
+                    pick = 1 + curr[target-coins[idx]];
 
-                dp[idx][target] = min(pick, notPick);
+                curr[target] = min(pick, notPick);
             }
+            prev = curr;
         }
         
-        int ans = dp[n-1][amount];
+        int ans = prev[amount];
         if(ans >= 1e9) return -1;
         return ans;
+        
         
         
     }
