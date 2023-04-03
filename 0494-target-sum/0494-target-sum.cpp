@@ -17,9 +17,33 @@ class Solution {
     }
     
     int countSubsetsWithSumK(vector<int> &nums, int k) {
+        // Memo
+        // int n = nums.size();
+        // // vector<vector<int>> dp(n, vector<int>(k+1, -1));
+        // return f(n-1, k, nums, dp);
+        
+        // Tabulation
         int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(k+1, -1));
-        return f(n-1, k, nums, dp);  
+        vector<vector<int>> dp(n, vector<int>(k+1, 0));
+        if(nums[0] == 0) {
+            dp[0][0] = 2;
+        } else {
+            dp[0][0] = 1;
+        }
+        if(nums[0] <= k && nums[0] != 0) dp[0][nums[0]] = 1;
+        
+        for(int idx = 1; idx<n; idx++) {
+            for(int target=0; target<=k; target++) {
+                int notPick = dp[idx-1][target]; 
+                int pick = 0;
+                if(nums[idx] <= target) 
+                    pick = dp[idx-1][target-nums[idx]];
+
+                dp[idx][target] = pick + notPick;
+            }
+        }
+        
+        return dp[n-1][k];
     }
     
     
