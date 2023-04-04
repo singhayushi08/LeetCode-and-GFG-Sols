@@ -41,23 +41,43 @@ public:
         // return memo(n-1, amount, coins, dp);
         
         // Tabulation, TC: O(n*amount), SC: O(n*amount)
-        vector<vector<int>> dp(n, vector<int>(amount+1, 0));
+//         vector<vector<int>> dp(n, vector<int>(amount+1, 0));
+//         for(int t=0; t<=amount; t++) {
+//             if(t % coins[0] == 0) dp[0][t] = 1;
+//             else dp[0][t] = 0;
+//         }
+        
+//         for(int idx=1; idx<n; idx++) {
+//             for(int target=0; target<=amount; target++) {
+//                 int notPick = dp[idx-1][target]; 
+//                 int pick = 0;
+//                 if(coins[idx] <= target) 
+//                     pick = dp[idx][target-coins[idx]]; 
+
+//                 dp[idx][target] = pick + notPick;
+//             }
+//         }
+        
+//         return dp[n-1][amount];
+        
+        // Space Optimised, TC: O(n*amount), SC: O(amount)
+        vector<int> prev(amount+1, 0), curr(amount+1, 0);
         for(int t=0; t<=amount; t++) {
-            if(t % coins[0] == 0) dp[0][t] = 1;
-            else dp[0][t] = 0;
+            if(t % coins[0] == 0) prev[t] = 1;
         }
         
         for(int idx=1; idx<n; idx++) {
             for(int target=0; target<=amount; target++) {
-                int notPick = dp[idx-1][target]; 
+                int notPick = prev[target]; 
                 int pick = 0;
                 if(coins[idx] <= target) 
-                    pick = dp[idx][target-coins[idx]]; 
+                    pick = curr[target-coins[idx]]; 
 
-                dp[idx][target] = pick + notPick;
+                curr[target] = pick + notPick;
             }
+            prev = curr;
         }
         
-        return dp[n-1][amount];
+        return prev[amount];
     }
 };
