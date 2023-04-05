@@ -55,23 +55,43 @@ public:
         // return memo(N-1, W, val, wt, dp);
         
         // Tabulation
-        vector<vector<int>> dp(N, vector<int>(W+1, 0));
+        // vector<vector<int>> dp(N, vector<int>(W+1, 0));
+        // for(int w=0; w<=W; w++) {
+        //     if(wt[0] <= w) dp[0][w] = (w/wt[0])*val[0];
+        // }
+        
+        // for(int idx=1; idx<N; idx++) {
+        //     for(int w=0; w<=W; w++) {
+        //         int notPick = 0 + dp[idx-1][w]; 
+        //         int pick = INT_MIN;
+        //         if(wt[idx] <= w)
+        //             pick = val[idx] + dp[idx][w-wt[idx]]; 
+                    
+        //         dp[idx][w] = max(pick, notPick);
+        //     }
+        // }
+        
+        // return dp[N-1][W];
+        
+        // Space optimised
+        vector<int> prev(W+1, 0), curr(W+1, 0);
         for(int w=0; w<=W; w++) {
-            if(wt[0] <= w) dp[0][w] = (w/wt[0])*val[0];
+            if(wt[0] <= w) prev[w] = (w/wt[0])*val[0];
         }
         
         for(int idx=1; idx<N; idx++) {
             for(int w=0; w<=W; w++) {
-                int notPick = 0 + dp[idx-1][w]; 
+                int notPick = 0 + prev[w]; 
                 int pick = INT_MIN;
                 if(wt[idx] <= w)
-                    pick = val[idx] + dp[idx][w-wt[idx]]; 
+                    pick = val[idx] + curr[w-wt[idx]]; 
                     
-                dp[idx][w] = max(pick, notPick);
+                curr[w] = max(pick, notPick);
             }
+            prev = curr;
         }
         
-        return dp[N-1][W];
+        return prev[W];
     }
 };
 
