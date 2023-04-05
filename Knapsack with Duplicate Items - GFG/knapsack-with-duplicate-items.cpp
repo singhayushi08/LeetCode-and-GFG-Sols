@@ -51,8 +51,27 @@ public:
         // return f(N-1, W, val, wt);
         
         // Memoization
-        vector<vector<int>> dp(N, vector<int>(W+1, -1));
-        return memo(N-1, W, val, wt, dp);
+        // vector<vector<int>> dp(N, vector<int>(W+1, -1));
+        // return memo(N-1, W, val, wt, dp);
+        
+        // Tabulation
+        vector<vector<int>> dp(N, vector<int>(W+1, 0));
+        for(int w=0; w<=W; w++) {
+            if(wt[0] <= w) dp[0][w] = (w/wt[0])*val[0];
+        }
+        
+        for(int idx=1; idx<N; idx++) {
+            for(int w=0; w<=W; w++) {
+                int notPick = 0 + dp[idx-1][w]; 
+                int pick = INT_MIN;
+                if(wt[idx] <= w)
+                    pick = val[idx] + dp[idx][w-wt[idx]]; 
+                    
+                dp[idx][w] = max(pick, notPick);
+            }
+        }
+        
+        return dp[N-1][W];
     }
 };
 
