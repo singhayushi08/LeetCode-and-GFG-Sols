@@ -43,11 +43,32 @@ class Solution{
   public:
     int cutRod(int price[], int n) {
         // cut the road into pieces such that sum of the length of pieces cut is equal to the length of original rod
+        // Recursion
         // return f(n-1, n, price);
         
-        // Memo
-        vector<vector<int>> dp(n, vector<int>(n+1, -1));
-        return memo(n-1, n, price, dp);
+        // Memoization
+        // vector<vector<int>> dp(n, vector<int>(n+1, -1));
+        // return memo(n-1, n, price, dp);
+        
+        // Tabulation
+        vector<vector<int>> dp(n, vector<int>(n+1, 0));
+        for(int N=0; N<=n; N++) {
+            dp[0][N] = N*price[0];
+        }
+        
+        for(int idx=1; idx<n; idx++) {
+            for(int N=0; N<=n; N++) {
+                int notPick = 0 + dp[idx-1][N];
+                int pick = INT_MIN;
+                int rodLength = idx+1;
+                if(rodLength <= N) 
+                    pick = price[idx] + dp[idx][N-rodLength];
+                    
+                dp[idx][N] = max(pick, notPick);
+            }
+        }
+        
+        return dp[n-1][n];
     }
 };
 
