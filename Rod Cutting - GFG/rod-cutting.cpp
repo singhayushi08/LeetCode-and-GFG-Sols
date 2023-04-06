@@ -51,24 +51,47 @@ class Solution{
         // return memo(n-1, n, price, dp);
         
         // Tabulation
-        vector<vector<int>> dp(n, vector<int>(n+1, 0));
+        // vector<vector<int>> dp(n, vector<int>(n+1, 0));
+        // for(int N=0; N<=n; N++) {
+        //     dp[0][N] = N*price[0];
+        // }
+        
+        // for(int idx=1; idx<n; idx++) {
+        //     for(int N=0; N<=n; N++) {
+        //         int notPick = 0 + dp[idx-1][N];
+        //         int pick = INT_MIN;
+        //         int rodLength = idx+1;
+        //         if(rodLength <= N) 
+        //             pick = price[idx] + dp[idx][N-rodLength];
+                    
+        //         dp[idx][N] = max(pick, notPick);
+        //     }
+        // }
+        
+        // return dp[n-1][n];
+        
+        // Space Optimised
+        vector<int> prev(n+1, 0), curr(n+1,0);
         for(int N=0; N<=n; N++) {
-            dp[0][N] = N*price[0];
+            prev[N] = N*price[0];
         }
         
         for(int idx=1; idx<n; idx++) {
             for(int N=0; N<=n; N++) {
-                int notPick = 0 + dp[idx-1][N];
+                int notPick = 0 + prev[N];
                 int pick = INT_MIN;
                 int rodLength = idx+1;
                 if(rodLength <= N) 
-                    pick = price[idx] + dp[idx][N-rodLength];
+                    pick = price[idx] + curr[N-rodLength];
                     
-                dp[idx][N] = max(pick, notPick);
+                curr[N] = max(pick, notPick);
             }
+            prev = curr;
         }
         
-        return dp[n-1][n];
+        return prev[n];
+        
+        
     }
 };
 
