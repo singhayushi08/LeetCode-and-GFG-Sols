@@ -57,8 +57,39 @@ class Solution{
         // return f(n-1, m-1, pattern, str);
         
         // Memoization
-        vector<vector<int>> dp(n+1, vector<int>(m+1, -1)); 
-        return memo(n, m, pattern, str, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(m+1, -1)); 
+        // return memo(n, m, pattern, str, dp);
+        
+        // Tabulation
+        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+        dp[0][0] = true;
+        for(int j=1; j<=m; j++) dp[0][j] = false;
+        for(int i=1; i<=n; i++) {
+            bool flag = true;
+            for(int k=1; k<=i; k++) {
+                if(pattern[k-1] != '*') {
+                    flag = false;
+                    break;
+                }
+            }
+            dp[i][0] = flag;
+        }
+        
+        for(int i=1; i<=n; i++) {
+            for(int j=1; j<=m; j++) {
+                if(pattern[i-1] == str[j-1] || pattern[i-1] == '?') {
+                    dp[i][j] = dp[i-1][j-1];
+                }
+                else if(pattern[i-1] == '*') {
+                    dp[i][j] = dp[i-1][j] || dp[i][j-1];
+                }
+                else {
+                    dp[i][j] = false;
+                }
+            }
+        }
+        
+        return dp[n][m];
     }
 };
 
