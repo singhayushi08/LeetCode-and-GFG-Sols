@@ -13,10 +13,9 @@ public:
         
         // Optimal using DP, TC: O(n), SC: O(1)
         int mini = prices[0], maxProfit = 0;
-        int n = prices.size();
-        for(int i=1; i<n; i++) {
-            int profit = prices[i] - mini;
-            maxProfit = max(maxProfit, profit);
+        for(int i=1; i<prices.size(); i++) {
+            int cost = prices[i] - mini;
+            maxProfit = max(maxProfit, cost);
             mini = min(mini, prices[i]);
         }
         return maxProfit;
