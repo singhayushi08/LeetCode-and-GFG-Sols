@@ -43,36 +43,64 @@ public:
         // Recursion
         // return f(0, 1, 2, prices);
         
-        // Memo
+        // Memo, TC: O(N*2*3), SC: O(N*2*3 + N)
         // int n = prices.size();
         // vector<vector<vector<int>>> dp(n, vector<vector<int>>(2, vector<int>(3,-1)));
         // return memo(0, 1, 2, prices, dp);
         
-        // Tabulation
-        int n = prices.size();
-        vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(2, vector<int>(3,0)));
+        // Tabulation, TC: O(N*2*3), SC: O(N*2*3)
+//         int n = prices.size();
+//         vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(2, vector<int>(3,0)));
         
+//         for(int idx=n-1; idx>=0; idx--) {
+//             for(int buy=0; buy<=1; buy++) {
+//                 for(int k=1; k<=2; k++) {
+//                     int profit = 0;
+//                     if(buy == 1) {
+//                         int buyy = -prices[idx] + dp[idx+1][0][k];
+//                         int notBuy = 0 + dp[idx+1][1][k];
+//                         profit = max(buyy, notBuy);
+//                     } 
+//                     else {
+//                         int sell = prices[idx] + dp[idx+1][1][k-1]; //transaction is complete when buy and sell, so k-1
+//                         int notSell = 0 + dp[idx+1][0][k];
+//                         profit = max(sell, notSell);
+//                     }
+
+//                     dp[idx][buy][k] = profit;
+//                 }
+//             }
+//         }
+        
+//         return dp[0][1][2];
+        
+        // Space Optimised, TC: O(N*2*3), SC: O(2*3) 
+        int n = prices.size();
+        vector<vector<int>> next(2, vector<int>(3,0));
+        vector<vector<int>> curr(2, vector<int>(3,0));
+
         for(int idx=n-1; idx>=0; idx--) {
             for(int buy=0; buy<=1; buy++) {
-                for(int k=2; k>0; k--) {
+                for(int k=1; k<=2; k++) {
                     int profit = 0;
                     if(buy == 1) {
-                        int buyy = -prices[idx] + dp[idx+1][0][k];
-                        int notBuy = 0 + dp[idx+1][1][k];
+                        int buyy = -prices[idx] + next[0][k];
+                        int notBuy = 0 + next[1][k];
                         profit = max(buyy, notBuy);
                     } 
                     else {
-                        int sell = prices[idx] + dp[idx+1][1][k-1]; //transaction is complete when buy and sell, so k-1
-                        int notSell = 0 + dp[idx+1][0][k];
+                        int sell = prices[idx] + next[1][k-1]; //transaction is complete when buy and sell, so k-1
+                        int notSell = 0 + next[0][k];
                         profit = max(sell, notSell);
                     }
 
-                    dp[idx][buy][k] = profit;
+                    curr[buy][k] = profit;
                 }
             }
+            next = curr;
         }
         
-        return dp[0][1][2];
+        return next[1][2];
         
     }
 };
