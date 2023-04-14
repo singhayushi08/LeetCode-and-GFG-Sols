@@ -56,47 +56,25 @@ int maxProfit(vector<int>&price){
     // return memo(0, 0, price, dp);
     
     // Tabulation
-    vector<vector<int>> dp(n+1, vector<int>(5,0));
-    for(int t=0; t<=4; t++) {
-        dp[n][t] = 0;
-    }
-    for(int idx=0; idx<=n; idx++) {
-        dp[idx][4] = 0;
-    }
+    // vector<vector<int>> dp(n+1, vector<int>(5,0));
+    // for(int t=0; t<=4; t++) {
+    //     dp[n][t] = 0;
+    // }
+    // for(int idx=0; idx<=n; idx++) {
+    //     dp[idx][4] = 0;
+    // }
     
-    for(int idx=n-1; idx>=0; idx--) {
-        for(int transNo=3; transNo>=0; transNo--) {
-            int profit = 0;
-            if(transNo % 2 == 0 ) { // buy
-                int buyy = -price[idx] + dp[idx+1][transNo+1];
-                int notBuy = 0 + dp[idx+1][transNo];
-                profit = max(buyy, notBuy);
-            } 
-            else { //sell
-                int sell = price[idx] + dp[idx+1][transNo+1];
-                int notSell = 0 + dp[idx+1][transNo];
-                profit = max(sell, notSell);
-            } 
-            dp[idx][transNo] = profit;
-        }
-    }
-    
-    return dp[0][0];
-    
-    // Space Optimised
-    // vector<int> next(5,0), curr(5,0);
-
     // for(int idx=n-1; idx>=0; idx--) {
     //     for(int transNo=3; transNo>=0; transNo--) {
     //         int profit = 0;
     //         if(transNo % 2 == 0 ) { // buy
-    //             int buyy = -price[idx] + next[transNo+1];
-    //             int notBuy = 0 + next[transNo];
+    //             int buyy = -price[idx] + dp[idx+1][transNo+1];
+    //             int notBuy = 0 + dp[idx+1][transNo];
     //             profit = max(buyy, notBuy);
     //         } 
     //         else { //sell
-    //             int sell = price[idx] + next[transNo+1] ;
-    //             int notSell = 0 + memo(idx+1, transNo, price, dp);
+    //             int sell = price[idx] + dp[idx+1][transNo+1];
+    //             int notSell = 0 + dp[idx+1][transNo];
     //             profit = max(sell, notSell);
     //         } 
     //         dp[idx][transNo] = profit;
@@ -104,6 +82,29 @@ int maxProfit(vector<int>&price){
     // }
     
     // return dp[0][0];
+    
+    // Space Optimised
+    vector<int> next(5,0), curr(5,0);
+
+    for(int idx=n-1; idx>=0; idx--) {
+        for(int transNo=3; transNo>=0; transNo--) {
+            int profit = 0;
+            if(transNo % 2 == 0 ) { // buy
+                int buyy = -price[idx] + next[transNo+1];
+                int notBuy = 0 + next[transNo];
+                profit = max(buyy, notBuy);
+            } 
+            else { //sell
+                int sell = price[idx] + next[transNo+1] ;
+                int notSell = 0 + next[transNo];
+                profit = max(sell, notSell);
+            } 
+            curr[transNo] = profit;
+        }
+        next = curr;
+    }
+    
+    return next[0];
 
     
 }
