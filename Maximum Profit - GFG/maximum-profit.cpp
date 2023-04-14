@@ -53,8 +53,32 @@ class Solution {
         // return f(0, 0, K, A, N);
         
         // Memo
-        vector<vector<int>> dp(N, vector<int>(2*K, -1));
-        return memo(0, 0, K, A, N, dp);
+        // vector<vector<int>> dp(N, vector<int>(2*K, -1));
+        // return memo(0, 0, K, A, N, dp);
+        
+        // Tabulation
+        vector<vector<int>> dp(N+1, vector<int>(2*K+1, 0));
+        
+        for(int idx=N-1; idx>=0; idx--) {
+            for(int transNo=2*K-1; transNo>=0; transNo--) {
+                int profit = 0;
+                if(transNo % 2 == 0) { // buy
+                    int buyy = -A[idx] + dp[idx+1][transNo+1];
+                    int notBuy = 0 + dp[idx+1][transNo];
+                    profit = max(buyy, notBuy);
+                } 
+                else { // sell
+                    int sell = A[idx] + dp[idx+1][transNo+1];
+                    int notSell = 0 + dp[idx+1][transNo];
+                    profit = max(sell, notSell);
+                }
+                
+                dp[idx][transNo] = profit;
+            }
+        }
+        
+        return dp[0][0];
+
     }
 };
 
