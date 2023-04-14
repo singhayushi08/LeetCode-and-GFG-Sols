@@ -37,7 +37,7 @@ class Solution {
     
 public:
     int maxProfit(int k, vector<int>& prices) {
-        // Memo
+        // APPROACH 1: SAME AS BUY AND SELL STOCK 3
         int n = prices.size();
         // vector<vector<vector<int>>> dp(n, vector<vector<int>>(2,vector<int>(k+1,-1)));
         // return f(0, 1, k, prices,dp); 
@@ -86,14 +86,14 @@ public:
         
 //         return next[1][k];
         
-        // ANOTHER WAY
+        // APPROACH 2: using transaction no instead of buy and cap
         // if K = 2, 
-        // 0 1 2 3 => transaction No.
+        // 0 1 2 3 => transaction No.(even means buy, odd means sell)
         // B S B S => buy and sell, buy and sell (total = 2*K = 4)
         
         // Memo, TC: O(N*K), SC: O(N*K + N)
-        vector<vector<int>> dp(n, vector<int>(2*k, -1));
-        return memo(0, 0, k, prices, dp);
+        // vector<vector<int>> dp(n, vector<int>(2*k, -1));
+        // return memo(0, 0, k, prices, dp);
         
         // Tabulation, TC: O(N*K), SC: O(N*K)
 //         vector<vector<int>> dp(n+1, vector<int>(2*k+1, 0));
@@ -119,28 +119,28 @@ public:
 //         return dp[0][0];
         
         // Space Optimised, TC: O(N*K), SC: O(2*K)
-//         vector<int> next(2*k+1, 0), curr(2*k+1, 0);
+        vector<int> next(2*k+1, 0), curr(2*k+1, 0);
         
-//         for(int idx=n-1; idx>=0; idx--) {
-//             for(int transNo=2*k-1; transNo>=0; transNo--) {
-//                 int profit = 0;
-//                 if(transNo % 2 == 0) { // buy
-//                     int buyy = -prices[idx] + next[transNo+1];
-//                     int notBuy = 0 + next[transNo];
-//                     profit = max(buyy, notBuy);
-//                 } 
-//                 else { // sell
-//                     int sell = prices[idx] + next[transNo+1];
-//                     int notSell = 0 + next[transNo];
-//                     profit = max(sell, notSell);
-//                 }
+        for(int idx=n-1; idx>=0; idx--) {
+            for(int transNo=2*k-1; transNo>=0; transNo--) {
+                int profit = 0;
+                if(transNo % 2 == 0) { // buy
+                    int buyy = -prices[idx] + next[transNo+1];
+                    int notBuy = 0 + next[transNo];
+                    profit = max(buyy, notBuy);
+                } 
+                else { // sell
+                    int sell = prices[idx] + next[transNo+1];
+                    int notSell = 0 + next[transNo];
+                    profit = max(sell, notSell);
+                }
                 
-//                 curr[transNo] = profit;
-//             }
-//             next = curr;
-//         }
+                curr[transNo] = profit;
+            }
+            next = curr;
+        }
         
-//         return next[0];
+        return next[0];
 
     }
 };
