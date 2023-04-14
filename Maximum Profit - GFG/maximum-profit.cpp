@@ -52,32 +52,56 @@ class Solution {
         // Recursion
         // return f(0, 0, K, A, N);
         
-        // Memo
+        // Memo, TC: O(N*K), SC: O(N*K + N)
         // vector<vector<int>> dp(N, vector<int>(2*K, -1));
         // return memo(0, 0, K, A, N, dp);
         
-        // Tabulation
-        vector<vector<int>> dp(N+1, vector<int>(2*K+1, 0));
+        // Tabulation, TC: O(N*K), SC: O(N*K)
+        // vector<vector<int>> dp(N+1, vector<int>(2*K+1, 0));
+        
+        // for(int idx=N-1; idx>=0; idx--) {
+        //     for(int transNo=2*K-1; transNo>=0; transNo--) {
+        //         int profit = 0;
+        //         if(transNo % 2 == 0) { // buy
+        //             int buyy = -A[idx] + dp[idx+1][transNo+1];
+        //             int notBuy = 0 + dp[idx+1][transNo];
+        //             profit = max(buyy, notBuy);
+        //         } 
+        //         else { // sell
+        //             int sell = A[idx] + dp[idx+1][transNo+1];
+        //             int notSell = 0 + dp[idx+1][transNo];
+        //             profit = max(sell, notSell);
+        //         }
+                
+        //         dp[idx][transNo] = profit;
+        //     }
+        // }
+        
+        // return dp[0][0];
+        
+        // Space Optimised, TC: O(N*K), SC: O(2*K)
+        vector<int> next(2*K+1, 0), curr(2*K+1, 0);
         
         for(int idx=N-1; idx>=0; idx--) {
             for(int transNo=2*K-1; transNo>=0; transNo--) {
                 int profit = 0;
                 if(transNo % 2 == 0) { // buy
-                    int buyy = -A[idx] + dp[idx+1][transNo+1];
-                    int notBuy = 0 + dp[idx+1][transNo];
+                    int buyy = -A[idx] + next[transNo+1];
+                    int notBuy = 0 + next[transNo];
                     profit = max(buyy, notBuy);
                 } 
                 else { // sell
-                    int sell = A[idx] + dp[idx+1][transNo+1];
-                    int notSell = 0 + dp[idx+1][transNo];
+                    int sell = A[idx] + next[transNo+1];
+                    int notSell = 0 + next[transNo];
                     profit = max(sell, notSell);
                 }
                 
-                dp[idx][transNo] = profit;
+                curr[transNo] = profit;
             }
+            next = curr;
         }
         
-        return dp[0][0];
+        return next[0];
 
     }
 };
