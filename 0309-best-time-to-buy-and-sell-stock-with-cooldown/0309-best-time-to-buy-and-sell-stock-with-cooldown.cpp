@@ -45,20 +45,39 @@ public:
 //         return dp[0][1];
         
         // you can remove the buy loop and execute both buy=0, buy=1 at once
-        vector<vector<int>> dp(n+2, vector<int>(2,0));
+//         vector<vector<int>> dp(n+2, vector<int>(2,0));
+        
+//         for(int idx=n-1; idx>=0; idx--) {
+//             int buyy = -prices[idx] + dp[idx+1][0];
+//             int notBuy = 0 + dp[idx+1][1];
+//             dp[idx][1] = max(buyy, notBuy);
+
+
+//             int sell = prices[idx] + dp[idx+2][1];
+//             int notSell = 0 + dp[idx+1][0];
+//             dp[idx][0] = max(sell, notSell);
+//         }
+        
+//         return dp[0][1];
+        
+        // Space Optimised
+        vector<int> next2(2,0), next1(2,0), curr(2,0);
         
         for(int idx=n-1; idx>=0; idx--) {
-            int buyy = -prices[idx] + dp[idx+1][0];
-            int notBuy = 0 + dp[idx+1][1];
-            dp[idx][1] = max(buyy, notBuy);
+            int buyy = -prices[idx] + next1[0];
+            int notBuy = 0 + next1[1];
+            curr[1] = max(buyy, notBuy);
 
 
-            int sell = prices[idx] + dp[idx+2][1];
-            int notSell = 0 + dp[idx+1][0];
-            dp[idx][0] = max(sell, notSell);
+            int sell = prices[idx] + next2[1];
+            int notSell = 0 + next1[0];
+            curr[0] = max(sell, notSell);
+            
+            next2 = next1;
+            next1 = curr;
         }
         
-        return dp[0][1];
+        return next1[1];
 
     }
 };
