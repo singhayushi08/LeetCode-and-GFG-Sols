@@ -23,24 +23,42 @@ public:
         // return f(0, 1, prices, fee, dp);
         
         // Tabulation
-        vector<vector<int>> dp(n+1, vector<int>(2, 0));
+//         vector<vector<int>> dp(n+1, vector<int>(2, 0));
+        
+//         for(int idx=n-1; idx>=0; idx--) {
+//             for(int buy=0; buy<=1; buy++) {
+//                 if(buy == 1) { // buy
+//                     int buyy = -prices[idx] + dp[idx+1][0];
+//                     int notBuy = 0 + dp[idx+1][1];
+//                     dp[idx][buy] = max(buyy, notBuy);
+//                 }
+//                 else { // sell
+//                     int sell = prices[idx] - fee + dp[idx+1][1]; //1 transaction is complete, now pay the fee
+//                     int notSell = 0 + dp[idx+1][0];
+//                     dp[idx][buy] = max(sell, notSell);
+//                 }
+//             }
+//         }
+        
+//         return dp[0][1];
+
+        // Space Optimised
+        vector<int> next(2, 0), curr(2, 0);
         
         for(int idx=n-1; idx>=0; idx--) {
-            for(int buy=0; buy<=1; buy++) {
-                if(buy == 1) { // buy
-                    int buyy = -prices[idx] + dp[idx+1][0];
-                    int notBuy = 0 + dp[idx+1][1];
-                    dp[idx][buy] = max(buyy, notBuy);
-                }
-                else { // sell
-                    int sell = prices[idx] - fee + dp[idx+1][1]; //1 transaction is complete, now pay the fee
-                    int notSell = 0 + dp[idx+1][0];
-                    dp[idx][buy] = max(sell, notSell);
-                }
-            }
+        
+            int buyy = -prices[idx] + next[0];
+            int notBuy = 0 + next[1];
+            curr[1] = max(buyy, notBuy);
+
+            int sell = prices[idx] - fee + next[1]; //1 transaction is complete, now pay the fee
+            int notSell = 0 + next[0];
+            curr[0] = max(sell, notSell);
+            
+            next = curr;
         }
         
-        return dp[0][1];
+        return next[1];
 
     }
 };
