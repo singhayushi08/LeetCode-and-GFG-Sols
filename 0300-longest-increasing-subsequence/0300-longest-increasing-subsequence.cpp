@@ -14,12 +14,12 @@ class Solution {
     
 public:
     int lengthOfLIS(vector<int>& nums) {        
-        // Memoization
+        // Memoization, TC: O(n^2), SC: O(n^2 + n)
         int n = nums.size();
         // vector<vector<int>> dp(n, vector<int>(n+1, -1));
         // return f(0, -1, nums, dp);
         
-        // Tabulation
+        // Tabulation, TC: O(n^2), SC: O(n^2)
 //         vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
         
 //         for(int idx=n-1; idx>=0; idx--) {
@@ -36,22 +36,37 @@ public:
 
 //         return dp[0][-1+1];
         
-        // Space Optimised
-        vector<int> next(n+1, 0), curr(n+1, 0);
+        // Space Optimised, TC: O(n^2), SC: O(2n)
+//         vector<int> next(n+1, 0), curr(n+1, 0);
         
-        for(int idx=n-1; idx>=0; idx--) {
-            for(int prev_idx=idx-1; prev_idx>=-1; prev_idx--) {
-                int notTake = 0 + next[prev_idx+1];
-                int take = 0;
-                if(prev_idx == -1 || nums[idx] > nums[prev_idx]) {
-                    take = 1 + next[idx+1];
+//         for(int idx=n-1; idx>=0; idx--) {
+//             for(int prev_idx=idx-1; prev_idx>=-1; prev_idx--) {
+//                 int notTake = 0 + next[prev_idx+1];
+//                 int take = 0;
+//                 if(prev_idx == -1 || nums[idx] > nums[prev_idx]) {
+//                     take = 1 + next[idx+1];
+//                 }
+
+//                 curr[prev_idx+1] = max(take, notTake);
+//             }
+//             next = curr;
+//         }
+
+//         return next[-1+1];
+        
+        // Another way of tabulation, TC: O(n^2), SC: O(n)
+        vector<int> dp(n, 1);
+        int maxi = 1;
+        
+        for(int i=0; i<n; i++) {
+            for(int prev=0; prev<i; prev++) {
+                if(nums[prev] < nums[i]) {
+                    dp[i] = max(dp[i], 1 + dp[prev]);
                 }
-
-                curr[prev_idx+1] = max(take, notTake);
             }
-            next = curr;
+            maxi = max(maxi, dp[i]);
         }
-
-        return next[-1+1];
+        
+        return maxi;
     }
 };
