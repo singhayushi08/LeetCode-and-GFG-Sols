@@ -9,6 +9,7 @@ class Solution {
     vector<int> longestIncreasingSubsequence(int n, vector<int>& arr) {
         vector<int> dp(n, 1), hash(n);
         
+        // Tabulation, takes O(N^2)
         int maxi = 0, lastIndex = -1;
         for(int i=0; i<n; i++) {
             hash[i] = i;
@@ -24,6 +25,7 @@ class Solution {
             }
         }
         
+        // Backtracking, takes O(length of LIS)
         vector<int> ans;
         ans.push_back(arr[lastIndex]);
         while(hash[lastIndex] != lastIndex) {
