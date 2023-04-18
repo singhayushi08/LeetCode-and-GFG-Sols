@@ -55,18 +55,38 @@ public:
 //         return next[-1+1];
         
         // Another way of tabulation, TC: O(n^2), SC: O(n)
-        vector<int> dp(n, 1);
-        int maxi = 1;
+//         vector<int> dp(n, 1);
+//         int maxi = 1;
         
-        for(int i=0; i<n; i++) {
-            for(int prev=0; prev<i; prev++) {
-                if(nums[prev] < nums[i]) {
-                    dp[i] = max(dp[i], 1 + dp[prev]);
-                }
+//         for(int i=0; i<n; i++) {
+//             for(int prev=0; prev<i; prev++) {
+//                 if(nums[prev] < nums[i]) {
+//                     dp[i] = max(dp[i], 1 + dp[prev]);
+//                 }
+//             }
+//             maxi = max(maxi, dp[i]);
+//         }
+        
+//         return maxi;
+        
+        // BEST using Binary Search, TC: O(n*logn), SC: O(n)
+        vector<int> temp;
+        temp.push_back(nums[0]);
+        
+        for(int i=1; i<n; i++) {
+            if(nums[i] > temp.back()) {
+                temp.push_back(nums[i]);
             }
-            maxi = max(maxi, dp[i]);
+            else {
+                // lower_bound is inbuilt stl binary search function which returns the index of target if it is present, if not then returns the index of the number just greater than the target
+                int idx = lower_bound(temp.begin(), temp.end(), nums[i]) - temp.begin();
+                temp[idx] = nums[i];
+            }
         }
         
-        return maxi;
+        return temp.size();
+        
+        
+
     }
 };
