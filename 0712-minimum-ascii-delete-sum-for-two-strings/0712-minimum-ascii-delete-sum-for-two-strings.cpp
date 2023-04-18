@@ -53,7 +53,34 @@ public:
         int m = s2.size();
         // return f(n-1, m-1, s1, s2);
         
-        vector<vector<int>> dp(n+1, vector<int>(m+1,-1));
-        return f(n, m, s1, s2, dp);
+        // Memoization, converted into 1 based indexing
+//         vector<vector<int>> dp(n+1, vector<int>(m+1,-1));
+//         return f(n, m, s1, s2, dp);
+        
+        // Tabulation
+        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+        dp[0][0] = 0;
+        for(int j=1; j<=m; j++) {
+            dp[0][j] = s2[j-1] + dp[0][j-1];
+        }
+        for(int i=1; i<=n; i++) {
+            dp[i][0] = s1[i-1] + dp[i-1][0];
+        }
+        
+        for(int i=1; i<=n; i++) {
+            for(int j=1; j<=m; j++) {
+                if(s1[i-1] == s2[j-1]) {
+                    dp[i][j] = 0 + dp[i-1][j-1];
+                }
+                else {
+                    int option1 = s1[i-1] + dp[i-1][j];
+                    int option2 = s2[j-1] + dp[i][j-1];
+                    dp[i][j] = min(option1, option2);
+                }
+            }
+        }
+        
+        return dp[n][m];
+ 
     }
 };
