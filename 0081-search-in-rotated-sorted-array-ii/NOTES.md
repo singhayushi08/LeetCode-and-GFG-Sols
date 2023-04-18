@@ -1,0 +1,2 @@
+Approach: The idea is the same as the previous one without duplicates. The only difference is that due to the existence of duplicates, arr[low] == arr[mid] could be possible, the first half could be out of order (i.e. not in the ascending order, e.g. {3, 1, 2, 3, 3, 3, 3}) and we have to deal this case separately.
+In that case, it is guaranteed that arr[high] also equal to arr[mid], so the condition arr[mid] == arr[low] == arr[high] can be checked before the original logic, and if so then move left and right both towards the middle by 1 and repeat.
