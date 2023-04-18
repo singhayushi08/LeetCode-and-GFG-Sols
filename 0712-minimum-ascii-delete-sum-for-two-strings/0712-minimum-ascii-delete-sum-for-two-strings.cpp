@@ -58,29 +58,54 @@ public:
 //         return f(n, m, s1, s2, dp);
         
         // Tabulation
-        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
-        dp[0][0] = 0;
+//         vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+//         dp[0][0] = 0;
+//         for(int j=1; j<=m; j++) {
+//             dp[0][j] = s2[j-1] + dp[0][j-1];
+//         }
+//         for(int i=1; i<=n; i++) {
+//             dp[i][0] = s1[i-1] + dp[i-1][0];
+//         }
+        
+//         for(int i=1; i<=n; i++) {
+//             for(int j=1; j<=m; j++) {
+//                 if(s1[i-1] == s2[j-1]) {
+//                     dp[i][j] = 0 + dp[i-1][j-1];
+//                 }
+//                 else {
+//                     int option1 = s1[i-1] + dp[i-1][j];
+//                     int option2 = s2[j-1] + dp[i][j-1];
+//                     dp[i][j] = min(option1, option2);
+//                 }
+//             }
+//         }
+        
+//         return dp[n][m];
+ 
+        // Space Optimisation
+        vector<int> prev(m+1, 0), curr(m+1, 0);
+        prev[0] = 0;
         for(int j=1; j<=m; j++) {
-            dp[0][j] = s2[j-1] + dp[0][j-1];
-        }
-        for(int i=1; i<=n; i++) {
-            dp[i][0] = s1[i-1] + dp[i-1][0];
+            prev[j] = s2[j-1] + prev[j-1];
         }
         
         for(int i=1; i<=n; i++) {
+            curr[0] = s1[i-1] + prev[0];
             for(int j=1; j<=m; j++) {
                 if(s1[i-1] == s2[j-1]) {
-                    dp[i][j] = 0 + dp[i-1][j-1];
+                    curr[j] = 0 + prev[j-1];
                 }
                 else {
-                    int option1 = s1[i-1] + dp[i-1][j];
-                    int option2 = s2[j-1] + dp[i][j-1];
-                    dp[i][j] = min(option1, option2);
+                    int option1 = s1[i-1] + prev[j];
+                    int option2 = s2[j-1] + curr[j-1];
+                    curr[j] = min(option1, option2);
                 }
             }
+            prev = curr;
         }
         
-        return dp[n][m];
+        return prev[m];
  
+        
     }
 };
