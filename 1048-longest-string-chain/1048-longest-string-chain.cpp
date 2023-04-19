@@ -23,6 +23,9 @@ class Solution {
     
 public:
     int longestStrChain(vector<string>& words) { // Ques is just like Longest Increasing Subsequence
+        
+        // TC: O(n^2 * l + nlogn) where n^2 is for two loops and l is length of longest word in words, nlogn for sorting
+        // SC: O(n) for using single dp array
         int n = words.size();
         if(n == 1) return 1;
         
