@@ -7,7 +7,7 @@ class Solution{
 	public:
 	int LongestBitonicSequence(vector<int>nums)
 	{
-	    // TC: O(n^2), SC: O(3n)
+	    // TC: O(n^2), SC: O(2*n)
 	    // {1, 2, 5} is LIS, {3, 2} is also LIS if seen from backwards
 	    int n = nums.size();
 	    if(n == 1) return 1;
@@ -29,11 +29,12 @@ class Solution{
 	        }
 	    }
 	    
-	    vector<int> bitonic(n,0);
+	   // vector<int> bitonic(n,0);
 	    int maxi = 1;
 	    for(int i=0; i<n; i++) {
-	        bitonic[i] = dp1[i] + dp2[i] - 1; // removing common
-	        maxi = max(maxi, bitonic[i]);
+	       // bitonic[i] = dp1[i] + dp2[i] - 1; // removing common
+	       // maxi = max(maxi, bitonic[i]);
+	       maxi = max(maxi, dp1[i] + dp2[i] - 1);
 	    }
 	    
 	    return maxi;
