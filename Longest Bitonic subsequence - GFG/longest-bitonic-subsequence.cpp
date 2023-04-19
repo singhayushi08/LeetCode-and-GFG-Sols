@@ -7,7 +7,7 @@ class Solution{
 	public:
 	int LongestBitonicSequence(vector<int>nums)
 	{
-	    // TC: O(n^2), SC: O(2*n)
+	    // TC: O(n^2), SC: O(n)
 	    // {1, 2, 5} is LIS, {3, 2} is also LIS if seen from backwards
 	    int n = nums.size();
 	    if(n == 1) return 1;
