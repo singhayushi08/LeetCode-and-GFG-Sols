@@ -23,24 +23,8 @@ class Solution {
     
 public:
     int findLongestChain(vector<vector<int>>& pairs) { // Variation of LIS
-        // BEST: using DP, TC: O(n^2), SC: O(n)
-//         sort(pairs.begin(), pairs.end());
         
-//         int n = pairs.size();
-//         vector<int> dp(n, 1);
-//         int maxi = 1;
-//         for(int i=0; i<n; i++) {
-//             for(int prev=0; prev<i; prev++) {
-//                 if(pairs[i][0] > pairs[prev][1] && dp[i] < 1 + dp[prev]) { 
-//                     dp[i] = 1 + dp[prev];   
-//                 }
-//             }
-//             maxi = max(maxi, dp[i]);
-//         }
-        
-//         return maxi;
-        
-        // Pure LIS Recursion
+        // LIS Recursion
         // sort(pairs.begin(), pairs.end());
         // return f(0, -1, pairs);
         
@@ -51,22 +35,58 @@ public:
         // return memo(0, -1, pairs, dp);
         
         // Tabulation, TC: O(n^2), SC: O(n^2)
-        int n = pairs.size();
-        sort(pairs.begin(), pairs.end());
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+//         int n = pairs.size();
+//         sort(pairs.begin(), pairs.end());
+//         vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
 
-        for(int idx=n-1; idx>=0; idx--) {
-            for(int prev=idx; prev>=-1; prev--) {
-                int notPick = 0 + dp[idx+1][prev+1];
-                int pick = INT_MIN;
-                if(prev == -1 || pairs[idx][0] > pairs[prev][1]) {
-                    pick = 1 + dp[idx+1][idx+1];
+//         for(int idx=n-1; idx>=0; idx--) {
+//             for(int prev=idx; prev>=-1; prev--) {
+//                 int notPick = 0 + dp[idx+1][prev+1];
+//                 int pick = INT_MIN;
+//                 if(prev == -1 || pairs[idx][0] > pairs[prev][1]) {
+//                     pick = 1 + dp[idx+1][idx+1];
+//                 }
+//                 dp[idx][prev+1] = max(pick, notPick);
+//             }
+//         }
+        
+//         return dp[0][-1+1];
+        
+        // Space Optimised, TC: O(n^2), SC: O(2n)
+//         int n = pairs.size();
+//         sort(pairs.begin(), pairs.end());
+//         vector<int> next(n+1, 0), curr(n+1, 0);
+
+//         for(int idx=n-1; idx>=0; idx--) {
+//             for(int prev=idx; prev>=-1; prev--) {
+//                 int notPick = 0 + next[prev+1];
+//                 int pick = INT_MIN;
+//                 if(prev == -1 || pairs[idx][0] > pairs[prev][1]) {
+//                     pick = 1 + next[idx+1];
+//                 }
+//                 curr[prev+1] = max(pick, notPick);
+//             }
+//             next = curr;
+//         }
+        
+//         return next[-1+1];
+        
+        // BEST: using DP, TC: O(n^2), SC: O(n)
+        sort(pairs.begin(), pairs.end());
+        
+        int n = pairs.size();
+        vector<int> dp(n, 1);
+        int maxi = 1;
+        for(int i=0; i<n; i++) {
+            for(int prev=0; prev<i; prev++) {
+                if(pairs[i][0] > pairs[prev][1] && dp[i] < 1 + dp[prev]) { 
+                    dp[i] = 1 + dp[prev];   
                 }
-                dp[idx][prev+1] = max(pick, notPick);
             }
+            maxi = max(maxi, dp[i]);
         }
         
-        return dp[0][-1+1];
+        return maxi;
         
     }
 };
