@@ -45,11 +45,28 @@ public:
         // return f(0, -1, pairs);
         
         // Memoization, TC: O(n^2), SC: O(n^2)
+        // int n = pairs.size();
+        // sort(pairs.begin(), pairs.end());
+        // vector<vector<int>> dp(n, vector<int>(n+1, -1));
+        // return memo(0, -1, pairs, dp);
+        
+        // Tabulation, TC: O(n^2), SC: O(n^2)
         int n = pairs.size();
         sort(pairs.begin(), pairs.end());
-        vector<vector<int>> dp(n, vector<int>(n+1, -1));
-        return memo(0, -1, pairs, dp);
+        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
 
+        for(int idx=n-1; idx>=0; idx--) {
+            for(int prev=idx; prev>=-1; prev--) {
+                int notPick = 0 + dp[idx+1][prev+1];
+                int pick = INT_MIN;
+                if(prev == -1 || pairs[idx][0] > pairs[prev][1]) {
+                    pick = 1 + dp[idx+1][idx+1];
+                }
+                dp[idx][prev+1] = max(pick, notPick);
+            }
+        }
+        
+        return dp[0][-1+1];
         
     }
 };
