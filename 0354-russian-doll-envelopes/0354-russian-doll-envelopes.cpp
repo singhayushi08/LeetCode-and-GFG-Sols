@@ -35,6 +35,7 @@ class Solution {
     
 public:
     int maxEnvelopes(vector<vector<int>>& envelopes) { // Variation of LIS
+        // TC: O(n^2), SC: O(n) gives tle
 //         sort(envelopes.begin(), envelopes.end());
 //         int n = envelopes.size();
 //         vector<int> dp(n, 1);
@@ -51,17 +52,17 @@ public:
         
 //         return maxi;
         
-        // Recursion, TC: expo, SC: O(n)
+        // Recursion, TC: expo, SC: O(n) gives tle
         // sort(envelopes.begin(), envelopes.end());
         // return f(0, -1, envelopes);
         
-        // Memoization, TC: O(n^2), SC: O(n^2 + n)
+        // Memoization, TC: O(n^2), SC: O(n^2 + n) gives tle
         // int n = envelopes.size();
         // sort(envelopes.begin(), envelopes.end());
         // vector<vector<int>> dp(n, vector<int>(n+1, -1));
         // return memo(0, -1, envelopes, dp);
         
-        // Tabulation, TC: O(n^2), SC: O(n^2)
+        // Tabulation, TC: O(n^2), SC: O(n^2) gives tle
 //         int n = envelopes.size();
 //         sort(envelopes.begin(), envelopes.end());
 //         vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
@@ -80,7 +81,7 @@ public:
         
 //         return dp[0][-1+1];
         
-        // Space Optimisation, TC: O(n^2), SC: O(2n)
+        // Space Optimisation, TC: O(n^2), SC: O(2n) gives tle
 //         int n = envelopes.size();
 //         sort(envelopes.begin(), envelopes.end());
 //         vector<int> next(n+1, 0), curr(n+1, 0);
@@ -101,7 +102,7 @@ public:
 //         return next[-1+1];
         
         
-        // DP with Binary Search, TC: O(nlogn), SC: O(n)
+        // DP with Binary Search, TC: O(nlogn), SC: O(n) 
         int n = envelopes.size();
         // sort in terms of increasing width, now dont worry about width
         // if same width, then sort in decreasing order of height and call LIS on height column only coz width is already handled
