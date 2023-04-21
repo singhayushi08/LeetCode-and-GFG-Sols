@@ -18,6 +18,7 @@ class Solution {
     
 public:
     vector<vector<int>> findSubsequences(vector<int>& nums) {
+        // TC: O(2^n * n), SC: O(n) does not give tle coz input is very small
         set<vector<int>> ans;
         vector<int> temp;
         f(0, -1, nums, temp, ans);
