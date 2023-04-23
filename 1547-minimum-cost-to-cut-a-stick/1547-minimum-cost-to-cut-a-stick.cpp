@@ -41,7 +41,7 @@ public:
         // vector<vector<int>> dp(m+1, vector<int>(m+1, -1));
         // return memo(1, m, cuts, dp);
         
-        // Tabulation
+        // Tabulation, TC: O(m^3), SC: O(m^2)
         int m = cuts.size();
         cuts.push_back(n); 
         cuts.insert(cuts.begin(), 0); 
@@ -50,7 +50,7 @@ public:
         
         for(int i=m; i>=1; i--) {
             for(int j=1; j<=m; j++) {
-                if(i > j) continue;
+                if(i > j) continue; //or instead of this, start j from i
                 int mini = INT_MAX;
                 for(int k=i; k<=j; k++) {
                     int cost = cuts[j+1] - cuts[i-1] + dp[i][k-1] + dp[k+1][j];
