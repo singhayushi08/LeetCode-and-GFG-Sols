@@ -25,7 +25,8 @@ class Solution {
     }
     
 public:
-    int maxCoins(vector<int>& nums) {
+    int maxCoins(vector<int>& nums) { // Variation of MCM
+        
         // Recursion
         // int n = nums.size();
         // nums.push_back(1);
@@ -39,7 +40,7 @@ public:
         // vector<vector<int>> dp(n+1, vector<int>(n+1,-1));
         // return memo(1, n, nums, dp);
         
-        // Tabulation
+        // Tabulation, TC: O(N^3), SC: O(N^2)
         int n = nums.size();
         nums.push_back(1);
         nums.insert(nums.begin(), 1);
