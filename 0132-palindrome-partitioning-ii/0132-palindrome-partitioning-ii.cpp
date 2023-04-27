@@ -1,8 +1,14 @@
 class Solution {
     bool isPalindrome(string &s, int start, int end) {
-        if(start >= end) return true;
-        if(s[start] != s[end]) return false;
-        return isPalindrome(s, start+1, end-1);
+        // if(start >= end) return true;
+        // if(s[start] != s[end]) return false;
+        // return isPalindrome(s, start+1, end-1);
+        while(start < end) {
+            if(s[start] != s[end]) return false;
+            start++;
+            end--;
+        }
+        return true;
     }
     
     int f(int i, string &s, int n, vector<int>& dp) {
