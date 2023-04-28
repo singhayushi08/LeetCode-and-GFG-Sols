@@ -17,12 +17,12 @@ class Solution {
     
 public:
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
-        // Memoization, TC: O(n^2), SC: O(n+n) for dp array and aux stack space
+        // Memoization, TC: O(n*k), SC: O(n+n) for dp array and aux stack space
         // int n = arr.size();
         // vector<int> dp(n+1, -1);
         // return f(0, arr, n, k, dp);
         
-        // Tabulation
+        // Tabulation, TC: O(n*k), SC: O(n)
         int n = arr.size();
         vector<int> dp(n+1, 0);
         dp[n] = 0;
