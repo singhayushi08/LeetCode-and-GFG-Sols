@@ -17,8 +17,29 @@ class Solution {
     
 public:
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        // Memoization, TC: O(n^2), SC: O(n+n) for dp array and aux stack space
+        // int n = arr.size();
+        // vector<int> dp(n+1, -1);
+        // return f(0, arr, n, k, dp);
+        
+        // Tabulation
         int n = arr.size();
-        vector<int> dp(n+1, -1);
-        return f(0, arr, n, k, dp);
+        vector<int> dp(n+1, 0);
+        dp[n] = 0;
+        
+        for(int i=n-1; i>=0; i--) {
+            int maxElement = INT_MIN, len = 0;
+            int maxSum = INT_MIN;
+            for(int j=i; j<min(n,i+k); j++) { // in case i+k goes out of bound, hence min(n, i+k)
+                len++;
+                maxElement = max(arr[j], maxElement);
+                int sum = len * maxElement + dp[j+1];
+                maxSum = max(sum, maxSum);  
+            }
+
+            dp[i] = maxSum;
+        }
+        
+        return dp[0];
     }
 };
