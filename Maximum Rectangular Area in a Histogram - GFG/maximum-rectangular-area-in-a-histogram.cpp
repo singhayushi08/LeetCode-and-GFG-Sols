@@ -6,7 +6,7 @@ using namespace std;
 // } Driver Code Ends
 class Solution
 {
-    vector<long long> nextSmaller(long long arr[], int n) {
+    vector<long long> nextSmaller(long long arr[], int n) { // takes
         vector<long long> next(n);
         stack<long long> s;
         s.push(-1);
@@ -49,6 +49,7 @@ class Solution
     //Function to find largest rectangular area possible in a given histogram.
     long long getMaxArea(long long arr[], int n)
     {
+        // TC: O(N), SC: O(N)
         vector<long long> next;
         next = nextSmaller(arr, n);
         vector<long long> prev;
