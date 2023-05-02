@@ -6,7 +6,7 @@ public:
         int n = matrix[0].size();
         
         vector<vector<int>> dp(m, vector<int>(n, 0));
-        // dp[i][j] signifies how many squares having all 1 ending at i,j
+        // dp[i][j] signifies how many squares with all 1s having bottom right corner at matrix[i][j]
         for(int j=0; j<n; j++) {
             dp[0][j] = matrix[0][j];
         }
