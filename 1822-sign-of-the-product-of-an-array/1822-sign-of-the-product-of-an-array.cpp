@@ -18,10 +18,10 @@ public:
         for(int i=0; i<nums.size(); i++) {
             if(nums[i] == 0) return 0;
             else if(nums[i] < 0) {
-                if(sign == -1) {
+                if(sign == -1) { // if prod till now is -ve and curr element is also -ve, then sign becomes +ve
                     sign = 1;
                 } 
-                else if(sign == 1) {
+                else if(sign == 1) { // if prod till now is +ve and curr element is -ve, then sign is -ve
                     sign = -1;
                 }
             }
