@@ -33,25 +33,60 @@ public:
 //         int cnt = 0;
 //         for(int i=0; i<m; i++) {
 //             for(int j=0; j<n; j++) {
-//                 cnt += f(matrix, m, n, i, j);
+//                 cnt += f(matrix, m, n, i, j); // taking i,j as top left most corner of square
 //             }
 //         } 
 //         return cnt;
         
         // Memoization, TC: O(m*n), SC: O(m*n + m) for 2d vector and rec stack space
+//         int m =  matrix.size();
+//         int n = matrix[0].size();
+//         vector<vector<int>> dp(m, vector<int>(n, -1));
+        
+//         int cnt = 0;
+//         for(int i=0; i<m; i++) {
+//             for(int j=0; j<n; j++) {
+//                 if(matrix[i][j] == 1) {
+//                     cnt += memo(matrix, m, n, i, j, dp);
+//                 }
+//                 // else you cannot form a 1s square
+//             }
+//         } 
+//         return cnt;
+        
+        // Tabulation, TC: O(m*n), SC: O(m*n)
         int m =  matrix.size();
         int n = matrix[0].size();
-        vector<vector<int>> dp(m, vector<int>(n, -1));
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        // dp[i][j] signifies how many squares having all 1s starting at matrix[i][j]
+        
+        // fill last row
+        for(int j=0; j<n; j++) {
+            dp[m-1][j] = matrix[m-1][j];
+        }
+        // fill last col
+        for(int i=0; i<m; i++) {
+            dp[i][n-1] = matrix[i][n-1];
+        }
+        
+        for(int i=m-2; i>=0; i--) {
+            for(int j=n-2; j>=0; j--) {
+                if(matrix[i][j] == 1) {
+                    dp[i][j] = 1 + min(dp[i][j+1], min(dp[i+1][j], dp[i+1][j+1]));
+                }
+                else {
+                    dp[i][j] = 0;
+                }
+            }
+        }
         
         int cnt = 0;
         for(int i=0; i<m; i++) {
             for(int j=0; j<n; j++) {
-                if(matrix[i][j] == 1) {
-                    cnt += memo(matrix, m, n, i, j, dp);
-                }
-                // else you cannot form a 1s square
+                cnt += dp[i][j];
             }
-        } 
+        }
+        
         return cnt;
         
         
