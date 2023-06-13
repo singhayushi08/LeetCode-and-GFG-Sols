@@ -6,7 +6,7 @@ class Solution {
         
         // if neighbouring cell is water, then increase perimeter by 1
         // if 3 water cells in neighbour, so add 3 to perimeter
-        if((i-1 >= 0 && grid[i-1][j] == 0) || i-1 < 0) ans++;
+        if((i-1 >= 0 && grid[i-1][j] == 0) || i-1 < 0) ans++; // boundary of grid is covered by water, hence the latter
         if((j+1 < n && grid[i][j+1] == 0) || j+1 == n) ans++;
         if((i+1 < m && grid[i+1][j] == 0) || i+1 == m) ans++;
         if((j-1 >=0 && grid[i][j-1] == 0) || j-1 < 0) ans++;
@@ -21,6 +21,8 @@ class Solution {
     
 public:
     int islandPerimeter(vector<vector<int>>& grid) {
+        // Variation of no. of island (graph problem)
+        // TC: O(m*n), SC: O(m*n)
         int ans = 0;
         int m = grid.size();
         int n = grid[0].size();
