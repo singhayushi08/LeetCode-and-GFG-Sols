@@ -29,7 +29,7 @@ class Solution {
         
         for(int i=0; i<n; i++) {
             for(int j=0; j<m; j++) {
-                if(vis[i][j] == 1) {
+                if(vis[i][j] == 1) { // if any fresh orange is still left, then impossible
                     return -1;
                 }
             }
@@ -39,7 +39,8 @@ class Solution {
     
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        vector<vector<int>> vis = grid;
+        // TC: O(n*m*4), SC: O(n*m)
+        vector<vector<int>> vis = grid; // make a copy of input array to manipulate data
         int n = grid.size();
         int m = grid[0].size();
         queue<pair<int,int>> q;
