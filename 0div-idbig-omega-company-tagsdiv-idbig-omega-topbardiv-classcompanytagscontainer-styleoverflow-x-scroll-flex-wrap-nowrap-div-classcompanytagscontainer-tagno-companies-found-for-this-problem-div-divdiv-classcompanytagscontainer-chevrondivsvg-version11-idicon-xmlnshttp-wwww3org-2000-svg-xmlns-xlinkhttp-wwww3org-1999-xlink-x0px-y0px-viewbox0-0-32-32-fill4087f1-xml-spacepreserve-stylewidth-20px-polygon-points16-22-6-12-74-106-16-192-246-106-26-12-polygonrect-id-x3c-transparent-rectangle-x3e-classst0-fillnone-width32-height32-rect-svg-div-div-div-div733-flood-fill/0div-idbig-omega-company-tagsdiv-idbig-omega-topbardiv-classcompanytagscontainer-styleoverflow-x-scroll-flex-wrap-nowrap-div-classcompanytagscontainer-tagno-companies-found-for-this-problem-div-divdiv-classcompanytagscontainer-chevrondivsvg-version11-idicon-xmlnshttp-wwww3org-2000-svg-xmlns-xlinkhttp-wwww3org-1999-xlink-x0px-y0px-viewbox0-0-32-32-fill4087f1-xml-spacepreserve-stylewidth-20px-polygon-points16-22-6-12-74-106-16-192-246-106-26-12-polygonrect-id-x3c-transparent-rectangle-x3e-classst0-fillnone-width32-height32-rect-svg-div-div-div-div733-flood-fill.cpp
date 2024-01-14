@@ -20,17 +20,45 @@ class Solution {
         }
     }
     
+    void dfs_traversal(int row, int col, int startingPixelColor,int newColor, vector<vector<int>>& image, vector<vector<int>>& ans, int delrow[], int delcol[]) {
+        ans[row][col] = newColor; 
+        int n = image.size();
+        int m = image[0].size();
+        
+        for(int k=0; k<4; k++) {
+            int nrow = row + delrow[k];
+            int ncol = col + delcol[k];
+            
+            if(nrow >= 0 && nrow <n && ncol >=0 && ncol <m && image[nrow][ncol] == startingPixelColor && ans[nrow][ncol] != newColor) {
+                dfs_traversal(nrow, ncol, startingPixelColor, newColor, image, ans, delrow, delcol);
+            }
+        }
+    } 
+    
 public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
         // TC: O(m*n*4), SC: O(m*n)
+//         int n = image.size();
+//         int m = image[0].size();
+//         vector<vector<int>> vis(n,vector<int>(m,0));
+//         int startingPixelColor = image[sr][sc];
+        
+//         if(startingPixelColor == color) return image;
+//         dfs(sr,sc,startingPixelColor,color,image,vis);
+        
+//         return image;
+        
+        // better approach, you dont need to user vis array. TC: O(m*n*4), SC: O(m*n)
         int n = image.size();
         int m = image[0].size();
-        vector<vector<int>> vis(n,vector<int>(m,0));
+        vector<vector<int>> ans = image;
         int startingPixelColor = image[sr][sc];
+        int delrow[4] = {-1,0,1,0};
+        int delcol[4] = {0,1,0,-1};
         
         if(startingPixelColor == color) return image;
-        dfs(sr,sc,startingPixelColor,color,image,vis);
+        dfs_traversal(sr,sc,startingPixelColor,color,image,ans, delrow, delcol);
         
-        return image;
+        return ans;
     }
 };
