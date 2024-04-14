@@ -2,6 +2,7 @@ class Solution {
 public:
     int countPaths(int n, vector<vector<int>>& roads) {
         // Simple Dijktra's BFS Algo by keeping track of no. of ways to reach a node with shortest distance
+        // TC: O(E log V) where E is edgesm(i.e. roads.size()) and V is nodes (i.e. n), SC: O(n) for dist, ways, adj list and pq
         
         //create undirected adj list
         vector<pair<long long,long long>> adj[n];
