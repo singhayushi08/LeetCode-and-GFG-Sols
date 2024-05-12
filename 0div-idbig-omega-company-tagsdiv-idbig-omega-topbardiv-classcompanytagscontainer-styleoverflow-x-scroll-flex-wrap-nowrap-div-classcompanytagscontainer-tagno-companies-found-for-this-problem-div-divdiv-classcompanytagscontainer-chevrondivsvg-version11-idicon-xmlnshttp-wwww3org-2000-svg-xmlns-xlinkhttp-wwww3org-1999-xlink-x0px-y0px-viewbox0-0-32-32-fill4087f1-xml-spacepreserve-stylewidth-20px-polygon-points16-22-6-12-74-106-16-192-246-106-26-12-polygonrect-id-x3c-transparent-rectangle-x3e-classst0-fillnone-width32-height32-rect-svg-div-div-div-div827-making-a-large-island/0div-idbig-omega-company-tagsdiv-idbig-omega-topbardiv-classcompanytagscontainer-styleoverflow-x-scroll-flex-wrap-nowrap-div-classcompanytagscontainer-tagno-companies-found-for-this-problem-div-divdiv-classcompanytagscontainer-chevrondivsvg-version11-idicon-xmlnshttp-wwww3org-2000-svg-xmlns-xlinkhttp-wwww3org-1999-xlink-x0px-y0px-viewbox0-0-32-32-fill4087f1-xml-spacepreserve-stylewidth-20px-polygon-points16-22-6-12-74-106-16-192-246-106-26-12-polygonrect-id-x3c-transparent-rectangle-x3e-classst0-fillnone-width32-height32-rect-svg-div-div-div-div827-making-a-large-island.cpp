@@ -96,9 +96,10 @@ public:
         }
         
         // in case there is no cell with 0 in the matrix, then the ans will be the size[0]
-        for(int cellNo = 0; cellNo<n*n; cellNo++) {
-            ans = max(ans, ds.size[ds.getUltParent(cellNo)]);
-        }
+        // for(int cellNo = 0; cellNo<n*n; cellNo++) {
+        //     ans = max(ans, ds.size[ds.getUltParent(cellNo)]);
+        // }
+        ans = max(ans, ds.size[0]);
         
         return ans;
     }
