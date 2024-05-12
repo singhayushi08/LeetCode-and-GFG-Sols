@@ -99,6 +99,8 @@ public:
         // for(int cellNo = 0; cellNo<n*n; cellNo++) {
         //     ans = max(ans, ds.size[ds.getUltParent(cellNo)]);
         // }
+        
+        // OR
         ans = max(ans, ds.size[0]);
         
         return ans;
