@@ -10,17 +10,19 @@
  * };
  */
 class Solution {
-    void dfs(TreeNode* root, int &maxi) { //right->root->left
+    void dfs(TreeNode* root, int &sum) { //right->root->left
         if(root == NULL) return;
-        dfs(root->right, maxi);
-        root->val = root->val+maxi;
-        maxi = max(maxi,root->val);
-        dfs(root->left, maxi);
+        dfs(root->right, sum);
+        sum += root->val;
+        root->val = sum; //update root node with the sum received from right subtree
+        dfs(root->left, sum);
     }
+    
 public:
     TreeNode* bstToGst(TreeNode* root) {
-        int maxi = 0;
-        dfs(root, maxi);
+        // reverse inorder traversal, TC: O(n), SC: O(n)
+        int sum = 0;
+        dfs(root, sum);
         return root;
     }
 };
